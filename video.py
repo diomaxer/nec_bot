@@ -1,6 +1,7 @@
 import re
 import pytube
 import random
+from transliterate import translit
 
 
 def get_shedevr(folder="six_kadrov"):
@@ -9,9 +10,11 @@ def get_shedevr(folder="six_kadrov"):
     while True:
         video = random.choice(c.videos)
         if re.search(r'6 кадров', video.title.lower()):
-            print(video.title)
             break
+    translit_name = translit(video.title.lower(), language_code='ru', reversed=True)
+    file_name = re.sub(r'[.|,|"|\?|\>|\<|\:|\/|\\|\||\*]', '', translit_name)
+    print(file_name)
     filters = video.streams.filter(progressive=True)
-    filters.get_highest_resolution().download(output_path=folder)
-    file_name = re.sub(r'[.|,|"|\?|\>|\<|\:|\/|\\|\||\*]', '', video.title)
-    return f"{folder}/{file_name}.mp4"
+    filters.get_highest_resolution().download(output_path=folder, filename=file_name)
+
+    return f"{folder}/{file_name}"
