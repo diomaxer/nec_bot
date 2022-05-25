@@ -30,6 +30,7 @@ def send_video_tg(message, text):
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
+    bot.send_message(message.chat.id, "Запрос понял, пошел искать")
     while True:
         hour = datetime.now().hour
 
