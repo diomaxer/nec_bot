@@ -31,18 +31,17 @@ def send_video_tg(message, text):
 @bot.message_handler(commands=['start'])
 def start_message(message):
     while True:
-        # hour = datetime.now().hour
-        #
-        # if hour in (10, 12, 15, 18, 21, 0):
-        #     if hour == 10:
-        #         bot.send_message(message.chat.id, "Good morning Vietnam")
-        #     if hour == 0:
-        #         bot.send_message(message.chat.id, "Спокойной ночи! Вот тебе нец на сон грядущий")
-        #     bot.send_message(message.chat.id, get_joke())
-        # elif hour in (13, 17):
-        send_video_tg(message, "Что-то из архивов человечества")
-        time.sleep(10)
-        # time.sleep(60*60)
+        hour = datetime.now().hour
+
+        if hour in (10, 12, 15, 18, 21, 0):
+            if hour == 10:
+                bot.send_message(message.chat.id, "Good morning Vietnam")
+            if hour == 0:
+                bot.send_message(message.chat.id, "Спокойной ночи! Вот тебе нец на сон грядущий")
+            bot.send_message(message.chat.id, get_joke())
+        elif hour in (13, 17):
+            send_video_tg(message, "Что-то из архивов человечества")
+        time.sleep(60*60)
 
 
 bot.infinity_polling()
