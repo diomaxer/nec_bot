@@ -13,7 +13,5 @@ def get_shedevr(folder="six_kadrov"):
             break
     filters = video.streams.filter(progressive=True)
     filters.get_highest_resolution().download(output_path=folder)
-    file_name = re.sub('[.|,|"]', '', video.title)
+    file_name = re.sub(r'[.|,|"|\?|\>|\<|\:|\/|\\|\||\*]', '', video.title)
     return f"{folder}/{file_name}.mp4"
-
-

@@ -14,6 +14,19 @@ token = '5389192597:AAF2-PB6n-EXUUYWEfJImYEbrms0tZzhQNQ'
 bot = telebot.TeleBot(token)
 
 
+def send_video_tg(message, text):
+    video = open(get_shedevr(), 'rb')
+    file_name = video.name
+    if text:
+        bot.send_message(message.chat.id, text)
+    bot.send_video(message.chat.id, video)
+    print(f"{file_name} send")
+    time.sleep(5)
+    video.close()
+    os.remove(file_name)
+    print(f"{file_name} delete")
+
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
     while True:
@@ -26,21 +39,9 @@ def start_message(message):
         #         bot.send_message(message.chat.id, "Спокойной ночи! Вот тебе нец на сон грядущий")
         #     bot.send_message(message.chat.id, get_joke())
         # elif hour in (13, 17):
-        bot.send_message(message.chat.id, "Что-то из архивов человечества")
-        send_video_tg(message)
+        send_video_tg(message, "Что-то из архивов человечества")
         time.sleep(10)
         # time.sleep(60*60)
 
 
 bot.infinity_polling()
-
-
-def send_video_tg(message):
-    video = open(get_shedevr(), 'rb')
-    file_name = video.name
-    bot.send_video(message.chat.id, video)
-    print(f"{file_name} send")
-    time.sleep(5)
-    video.close()
-    os.remove(file_name)
-    print(f"{file_name} delete")
