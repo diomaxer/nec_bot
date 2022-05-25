@@ -1,6 +1,7 @@
 import os
 import time
 import telebot
+import shutil
 
 from datetime import datetime
 
@@ -23,8 +24,8 @@ def send_video_tg(message, text):
     print(f"{file_name} send")
     time.sleep(5)
     video.close()
-    os.remove(file_name)
-    print(f"{file_name} delete")
+    shutil.rmtree("six_kadrov", ignore_errors=True)
+    print(f"six_kadrov delete")
 
 
 @bot.message_handler(commands=['start'])
