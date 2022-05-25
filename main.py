@@ -1,31 +1,14 @@
 import os
 import time
-from datetime import datetime
-import random
 import telebot
+
+from datetime import datetime
+
+from joke import get_joke
+from video import get_shedevr
 
 
 token = '5389192597:AAF2-PB6n-EXUUYWEfJImYEbrms0tZzhQNQ'
-
-
-def get_joke():
-    file_name = random.choice(os.listdir(os.path.abspath('files')))
-    with open('files/' + file_name, 'r', encoding='utf-8') as file:
-        dirty_text = file.readlines()
-    clean_text = []
-    joke = ''
-    for item in dirty_text[1:]:
-        if item in ['\n']:
-            if joke not in ['', '\n']:
-                clean_text.append(joke)
-                joke = ''
-            continue
-        if item in ['']:
-            continue
-        else:
-            joke += item
-    message = dirty_text[0]
-    return message + random.choice(clean_text)
 
 
 bot = telebot.TeleBot(token)
@@ -34,10 +17,30 @@ bot = telebot.TeleBot(token)
 @bot.message_handler(commands=['start'])
 def start_message(message):
     while True:
-        hour = datetime.now().hour
-        if 10 <= hour <= 23 or hour == 0:
-            bot.send_message(message.chat.id, get_joke())
-        time.sleep(60*60)
+        # hour = datetime.now().hour
+        #
+        # if hour in (10, 12, 15, 18, 21, 0):
+        #     if hour == 10:
+        #         bot.send_message(message.chat.id, "Good morning Vietnam")
+        #     if hour == 0:
+        #         bot.send_message(message.chat.id, "Спокойной ночи! Вот тебе нец на сон грядущий")
+        #     bot.send_message(message.chat.id, get_joke())
+        # elif hour in (13, 17):
+        bot.send_message(message.chat.id, "Что-то из архивов человечества")
+        send_video_tg(message)
+        time.sleep(10)
+        # time.sleep(60*60)
 
 
 bot.infinity_polling()
+
+
+def send_video_tg(message):
+    video = open(get_shedevr(), 'rb')
+    file_name = video.name
+    bot.send_video(message.chat.id, video)
+    print(f"{file_name} send")
+    time.sleep(5)
+    video.close()
+    os.remove(file_name)
+    print(f"{file_name} delete")
