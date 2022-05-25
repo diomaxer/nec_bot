@@ -1,5 +1,6 @@
 import os
 import time
+from datetime import datetime
 import random
 import telebot
 
@@ -33,7 +34,9 @@ bot = telebot.TeleBot(token)
 @bot.message_handler(commands=['start'])
 def start_message(message):
     while True:
-        bot.send_message(message.chat.id, get_joke())
+        hour = datetime.now().hour
+        if 10 <= hour <= 23 or hour == 0:
+            bot.send_message(message.chat.id, get_joke())
         time.sleep(60*60)
 
 
